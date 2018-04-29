@@ -1,0 +1,63 @@
+// app/assets/stylesheets/application.css.sass
+
+@import "bootstrap-sprockets"
+@import "bootstrap"
+
+html
+    background: url('cascades.jpg') no-repeat center center fixed
+    background-size: cover
+
+    h1 
+        text-align: center
+        font-family: cursive
+        font-size: 48px
+        color: springgreen
+
+    body
+        background-color: transparent
+
+        .search-table
+            width: 50%
+            margin: 0 auto
+
+            table
+                border: thin solid springgreen
+
+                tr
+                    outline: thin solid springgreen
+                    th.city-title
+                        border-top: none
+                td.input-group
+                    border-top: none
+
+                .form-group
+                    margin-bottom: 0px
+                    display: inline-block
+
+                .submit-button
+                    display: inline
+
+                .form-control
+                    max-width: 250px
+                .btn-primary
+                    float: right
+
+        .weather-header
+            font-size: 48px
+
+        .weather-description
+            font-size: 24px
+
+        .current-temperature
+            font-weight: bold
+            background-color: #d5f4e6
+            color: crimson
+            font-family: serif
+            text-align: center
+            font-size: 64px
+
+        .weather-description, .weather-header
+            font-family: serif
+            text-align: center
+            color: aqua
+

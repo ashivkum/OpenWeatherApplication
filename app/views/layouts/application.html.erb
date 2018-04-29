@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather App</title>
+    <h1>Welcome to OpenWeather!</h1>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class='search-table'>
+        <table class="table">
+            <tr class='city-column'>
+                <th class="city-title">City</th>
+                <td class="city-value input-group mb-3">
+                    <input class="text-input form-control" type="text" placeholder="City"></input>
+                </td>
+            </tr>
+            <tr class='country-column'>
+                <th class="country-title">Country</th>
+                <td class="country-value">
+                    <div class="form-group">
+                      <select class="form-control" id="sel1">
+                      </select>
+                    </div>
+                    <div class="submit-button">
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class='weather-container'>
+    </div>
+  </body>
+</html>
