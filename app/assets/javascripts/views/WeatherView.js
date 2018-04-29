@@ -7,13 +7,22 @@ WeatherView = Backbone.View.extend({
     '<div class="weather-description">',
     '<%= weatherDescription%> and <%= windIntensity%>, winds from the <%= windSymbolicDirection %> at <%= windSpeed %>mph',
     '</div>',
-    '<div class="current-temperature"><%= temperature %>&#176;F</div>',
+    '<div class="humidity-and-pressure">',
+    '<div class="humidity">Humidity: <%= humidity %>%</div>',
+    '<div class="pressure">Pressure: <%= pressure %> millibars</div>',
+    '</div>',
+    '<div class="current-temperature"><%= temperature %>&#176;F</div>'
   ].join('\n')),
-  errorDescriptionTemplate: _.template('<img src=<%= srcUrl %></img>'),
+  errorDescriptionTemplate: _.template([
+    '<div class="error-container">',
+    '<div class="error-msg"><%= message %></div>',
+    '<img class="error-img" src=<%= srcUrl %>></img>',
+    '</div>'
+  ].join('\n')),
 
-  baseTable: [
-      '<table class="table current-weather">',
-      '</table>'
+  baseDiv: [
+      '<div class="current-weather">',
+      '</div>'
   ].join('\n'),
   table_row: _.template([
       '<th class=<%= key %>><%= clean_key %></th>',
@@ -70,9 +79,12 @@ WeatherView = Backbone.View.extend({
   getWeatherDescriptionDiv: function() {
     var temperature = this.model.get('temperature');
     var weatherDescription = this.model.get('weather_description');
+    weatherDescription = weatherDescription[0].toUpperCase() + weatherDescription.substr(1);
     var city = this.model.get('city');
     var windIntensity = this.model.get('wind_intensity');
     var windSpeed = this.model.get('wind');
+    var humidity = this.model.get('humidity');
+    var pressure = this.model.get('pressure');
     var windSymbolicDirection = this.getWindDirectionVerbiage();
     return this.windDescriptionTemplate({
       city,
@@ -80,20 +92,30 @@ WeatherView = Backbone.View.extend({
       windIntensity,
       windSpeed,
       windSymbolicDirection,
-      temperature,
+      humidity,
+      pressure,
+      temperature
     });
   },
 
-  generateRowsToRender: function() {
-      var rowsToRender = [];
-
-      // Clean up city
-
+  renderErrorView: function(requestedCity, code) {
+    var message = '';
+    $('.weather-container').html(this.baseDiv);
+    if (code === 404) {
+      message = 'Cannot find the city ' + requestedCity + '!';
+    }
+    if (code === 500) {
+      message = 'A server error occured.  Please contact the webmaster';
+    }
+    $('.current-weather').append(this.errorDescriptionTemplate({
+      message,
+      srcUrl: '/assets/404-image.jpg'
+    }));
   },
 
-  render() {
+  render: function() {
       // Render the base table first
-      $('.weather-container').html(this.baseTable);
+      $('.weather-container').html(this.baseDiv);
 
       // Generate the city that you are in
       $('.current-weather').append(this.getWeatherDescriptionDiv());

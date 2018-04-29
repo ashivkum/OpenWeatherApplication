@@ -61,6 +61,9 @@ PageView = Backbone.View.extend({
   renderWeather: function() {
     this.weatherModel.fetch().done(function(response) {
       this.weatherView.render();
+    }.bind(this))
+    .fail(function(error) {
+      this.weatherView.renderErrorView(this.locationModel.get('city'), error.responseJSON.status);
     }.bind(this));
   }
 
