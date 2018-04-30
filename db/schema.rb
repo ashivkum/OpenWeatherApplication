@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_27_174221) do
+ActiveRecord::Schema.define(version: 2018_04_30_170223) do
+
+  create_table "city_weathers", id: false, force: :cascade do |t|
+    t.string "city", limit: 255
+    t.integer "temperature"
+    t.integer "wind"
+    t.string "wind_intensity", limit: 255
+    t.integer "wind_direction"
+    t.integer "pressure"
+    t.integer "humidity"
+    t.string "weather_description", limit: 255
+    t.string "weather_main", limit: 255
+    t.integer "last_requested_utc"
+  end
 
   create_table "countries", id: false, force: :cascade do |t|
     t.string "country_name", limit: 255
     t.string "country_code", limit: 10
   end
+
 end
