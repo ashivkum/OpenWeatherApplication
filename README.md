@@ -9,7 +9,6 @@ DB layer:
 * I am currently using a table for countries mapped to the country code (2 digit) that is required by the OpenWeather API.  To do this, I downloaded a JSON file of all the mappings, created a table as a migration task, and then `rails db:migrate` in order to create the table, and then wrote a seed.rb task to seed the table with the data from the JSON.  To do this, I ran `rake db:seed`, and filled the DB with all the information needed
 
 * I also added a table for weather that had already been retrieved.  This is the "caching" mechanism that was referred to in the practicum.  Rather than bog down the API I am calling with repeated requests for weather, I get the data from one API call, get the current time that this request was made, and write this to the table.  Next time someone requests the same city/country pair, they can refer back to the table and if the original written request in that table was made < 10 minutes ago, we just serve the data from our table, since 10 minutes is the recommendation given by the API spec to get accurate weather data for a city.  If the request was made > 10 minutes ago, we do a fresh pull from the API, and update our table value with this
-    * I realize there's a bug with this that I overlooked with city name (as I was typing this out), since there can be multiple cities of the same name in different countries, and my code didn't address that.  I would improve the design by writing the city as a combination of city/country to the database in the future.  This is something that can be easily done.  This is not actually a bug in terms of serving this data to the user, but more that the performance will be impacted in terms of caching.
 
 
 Rails Backend:
@@ -34,7 +33,6 @@ AWS:
 
 
 Things I would change/improve in this application:
-* Fix the bug I mentioned above that impacts caching because there are multiple cities with the same name
 * Better UX design, but then again, that's not what I do day to day :)
 * Implement concurrency handling on these DBs a bit more
 * Add options to choose degrees celsius for the user, based on geographic location
