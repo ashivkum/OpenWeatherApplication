@@ -10,8 +10,8 @@ class WeatherController < ApplicationController
         # First, see if the city to fetch is cached in DB and the last time it was cached was < 10 min ago
         # We are using 10 minutes as the caching time because that is what the API spec recommended weather
         # requests for a city be spaced out at.
-        city_to_fetch = params[:city]
-        weather_info = CityWeathers.find_by(:city => city_to_fetch)
+        weather_info = CityWeathers.find_by(:city => params[:city], :country => params[:country])
+        binding.pry
 
         # If we already have that info cached, and last request was < 10 minutes ago, serve from our DB
         if weather_info && (Time.now.utc.to_i - weather_info[:last_requested_utc] < @@TIME_LIMIT) then
@@ -27,11 +27,13 @@ class WeatherController < ApplicationController
                 # If the weather info was requested more than 10 minutes ago, update our entry in the DB
                 if (weather_info != nil) then
                     response_payload[:city].upcase!
+                    response_payload[:country].upcase!
                     weather_info.update(response_payload)
 
                 # If we never requested the city before, create the entry in the DB
                 else
                     response_payload[:city].upcase!
+                    response_payload[:country].upcase!
                     CityWeathers.create(response_payload)
                 end
                 render :json => response_payload, :status => 200

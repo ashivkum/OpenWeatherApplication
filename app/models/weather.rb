@@ -102,6 +102,7 @@ This is where the main computation is done
 
         return {
             :city => response_payload['name'],
+            :country => country,
             :temperature => farenheit_temperature,
             :wind => wind_speed_mph,
             :wind_intensity => beaufort_scale_verbiage,

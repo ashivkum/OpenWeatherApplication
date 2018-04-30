@@ -7,6 +7,7 @@ class CreateCountriesToCodeMapping < ActiveRecord::Migration[5.2]
 
     create_table "city_weathers", id: false, force: :cascade do |t|
       t.string "city", limit: 255
+      t.string "country", limit: 255
       t.integer "temperature"
       t.integer "wind"
       t.string "wind_intensity", limit: 255
