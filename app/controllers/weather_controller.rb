@@ -11,7 +11,6 @@ class WeatherController < ApplicationController
         # We are using 10 minutes as the caching time because that is what the API spec recommended weather
         # requests for a city be spaced out at.
         weather_info = CityWeathers.find_by(:city => params[:city], :country => params[:country])
-        binding.pry
 
         # If we already have that info cached, and last request was < 10 minutes ago, serve from our DB
         if weather_info && (Time.now.utc.to_i - weather_info[:last_requested_utc] < @@TIME_LIMIT) then
