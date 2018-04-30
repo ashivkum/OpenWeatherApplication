@@ -59,6 +59,11 @@ PageView = Backbone.View.extend({
   },
 
   renderWeather: function() {
+    if (!this.locationModel.get('city')) {
+      this.$el.find('.weather-container').empty().append('<div class="loading-error">Please provide a city!</div>');
+      return;
+    }
+    this.$el.find('.weather-container').empty().append('<div class="loading">Loading...</div>');
     this.weatherModel.fetch().done(function(response) {
       this.weatherView.render();
     }.bind(this))
